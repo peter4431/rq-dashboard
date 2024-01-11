@@ -3,6 +3,7 @@ name: rq-dashboard
 services:
   rq-dashboard:
     build: .
+    image: peter4431/rq-dashboard:v0.2
     entrypoint: python -m rq_dashboard --json
     ports:
       - '9181:9181'
