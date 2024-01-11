@@ -21,6 +21,8 @@ import re
 from functools import wraps
 from math import ceil
 
+import json
+
 import arrow
 from flask import (
     Blueprint,
@@ -343,7 +345,7 @@ def jobs_overview(instance_number, queue_name, registry_name, per_page, page):
 
 @blueprint.route("/<int:instance_number>/view/job/<job_id>")
 def job_view(instance_number, job_id):
-    job = Job.fetch(job_id)
+    job = Job.fetch(job_id, serializer=config.serializer)
     r = make_response(
         render_template(
             "rq_dashboard/job.html",
@@ -365,7 +367,7 @@ def job_view(instance_number, job_id):
 @blueprint.route("/job/<job_id>/delete", methods=["POST"])
 @jsonify
 def delete_job_view(job_id):
-    job = Job.fetch(job_id)
+    job = Job.fetch(job_id, config.serializer)
     job.delete()
     return dict(status="OK")
 
@@ -527,12 +529,13 @@ def job_info(instance_number, job_id):
     job = Job.fetch(job_id, serializer=config.serializer)
     return dict(
         id=job.id,
+        data=json.dumps(json.loads(job.data.decode('utf8')), ensure_ascii=False, indent=2),
+        result=json.dumps(job.return_value(), ensure_ascii=False),
         created_at=serialize_date(job.created_at),
         enqueued_at=serialize_date(job.enqueued_at),
         ended_at=serialize_date(job.ended_at),
         origin=job.origin,
         status=job.get_status(),
-        result=job._result,
         exc_info=str(job.exc_info) if job.exc_info else None,
         description=job.description,
     )
