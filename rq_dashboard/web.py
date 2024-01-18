@@ -367,7 +367,7 @@ def job_view(instance_number, job_id):
 @blueprint.route("/job/<job_id>/delete", methods=["POST"])
 @jsonify
 def delete_job_view(job_id):
-    job = Job.fetch(job_id, config.serializer)
+    job = Job.fetch(job_id, serializer=config.serializer)
     job.delete()
     return dict(status="OK")
 
