@@ -3,11 +3,11 @@ name: rq-dashboard
 services:
   rq-dashboard:
     build: .
-    image: peter4431/rq-dashboard:v0.2
+    image: peter4431/rq-dashboard:v0.3
     entrypoint: python -m rq_dashboard --json
     ports:
       - '9181:9181'
     environment:
-      RQ_DASHBOARD_REDIS_URL: redis://:p@ssw0rd@host.docker.internal:6379 # or redis+sentinel://[:password@]host:port[,host2:port2,...][/service_name[/db]][?param1=value1[&param2=value=2&...]]
+      RQ_DASHBOARD_REDIS_URL: redis://:EJV23uA^rMjY7g@192.168.199.210:16380/0 # or redis+sentinel://[:password@]host:port[,host2:port2,...][/service_name[/db]][?param1=value1[&param2=value=2&...]]
       # RQ_DASHBOARD_USERNAME: rq
       # RQ_DASHBOARD_PASSWORD: p@ssw0rd

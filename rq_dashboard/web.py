@@ -426,7 +426,7 @@ def compact_queue(queue_name):
 @blueprint.route("/<int:instance_number>/data/queues.json")
 @jsonify
 def list_queues(instance_number):
-    queues = serialize_queues(instance_number, sorted(Queue.all()))
+    queues = serialize_queues(instance_number, sorted(Queue.all(serializer=config.serializer)))
     return dict(queues=queues)
 
 
