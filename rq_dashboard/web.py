@@ -400,6 +400,10 @@ def empty_queue(queue_name, registry_name):
         ids = FailedJobRegistry(queue_name).get_job_ids()
         for id in ids:
             delete_job_view(id)
+        
+        # 也清除队列
+        q = Queue(queue_name, serializer=config.serializer)
+        q.empty()
     elif registry_name == "deferred":
         ids = DeferredJobRegistry(queue_name).get_job_ids()
         for id in ids:
